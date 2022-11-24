@@ -15,6 +15,7 @@ public class RandomWalkAnimation extends JFrame {
         Font font = new Font("굴림", Font.PLAIN, 40);
         Font fontS = new Font("굴림", Font.PLAIN, 20);
         private LineBorder box = new LineBorder(Color.black, 1, true);
+        static int Animationcount = 0;
         
     public RandomWalkAnimation() throws InterruptedException{
         JFrame jFrame = new JFrame("RandomWalk GUI");
@@ -56,11 +57,11 @@ public class RandomWalkAnimation extends JFrame {
         
         jFrame.setVisible(true);
      // 무당벌레 생성후 알고리즘 통해서 그리드에 나타나는 과정
-        int count = 0;
         LadyBug bug1 = new LadyBug();
         LadyBug tempBug1 = new LadyBug(); // 이전 행적 나타내기 위한 버그 임시로 만들어
         
         RandomWalkDemo.initField(); // 보드판 초기
+        Thread.sleep(1000);
         while(!Arrays.deepEquals(RandomWalkDemo.field, RandomWalkDemo.fulledField)) {
         	tempBug1.CurrentXPos = bug1.CurrentXPos;
         	tempBug1.CurrentYPos = bug1.CurrentYPos;
@@ -68,18 +69,14 @@ public class RandomWalkAnimation extends JFrame {
         	jLabel[bug1.CurrentXPos][bug1.CurrentYPos].setText(bug);
         	jLabel[bug1.CurrentXPos][bug1.CurrentYPos].setBackground(new Color(0,255,0));        	
         	
-        	Thread.sleep(200);
+        	Thread.sleep(10);
 			Movement.move(bug1);
 			
 			jLabel[tempBug1.CurrentXPos][tempBug1.CurrentYPos].setText(" ");
-			count ++;
+			Animationcount ++;
 		}
-        for (int i = 0; i < 10; i++) {
-			for (int j = 0; j < 10; j++) {
-				System.out.print(RandomWalkDemo.field[i][j]);
-			}
-			System.out.println();
-		}
+        System.out.println("소요시간: " + Animationcount);
+        RandomWalkDemo.main(null);
     }
 
     

@@ -5,30 +5,38 @@ import java.util.Arrays;
 public class RandomWalkDemo{
 	static int[][] field = new int[10][10];
 	static int[][] fulledField = new int[10][10]; // 완성 
+	
 	public static void main(String[] args) {
+		int loop = 0;
+		int allcount = 0;
 		
-		for (int i = 0; i < field.length; i++) {
-			for (int j = 0; j < field.length; j++) {
-				field[i][j] = 0;
-				fulledField[i][j] = 1;
+		while(loop<5) {
+			for (int i = 0; i < field.length; i++) {
+				for (int j = 0; j < field.length; j++) {
+					field[i][j] = 0;
+					fulledField[i][j] = 1;
+				}
 			}
-		}
-		int count = 0;
+			int count = 0;
 		
-//		LadyBug bug1 = new LadyBug();
-//		while(!Arrays.deepEquals(field, fulledField)) { 
-//			Movement.move(bug1);
-//			count ++;
-//		}
+			LadyBug bug1 = new LadyBug();
+			while(!Arrays.deepEquals(field, fulledField)) { 
+				Movement.move(bug1);
+				count ++;
+			}
 		
-//		for (int i = 0; i < field.length; i++) {
-//			for (int j = 0; j < field.length; j++) {
-//				System.out.print(field[i][j]);
+//			for (int i = 0; i < field.length; i++) {
+//				for (int j = 0; j < field.length; j++) {
+//					System.out.print(field[i][j]);
+//				}
+//				System.out.println();
 //			}
-//			System.out.println();
-//		}
-		
-		System.out.println("소요시간: " + count);
+//			System.out.println("소요시간: " + count + "\n");
+			allcount += count;
+			++ loop;
+		}
+		allcount += RandomWalkAnimation.Animationcount;
+		System.out.println("평균 소요시간: " + (allcount/loop));
 	}
 	
 	static void initField()
