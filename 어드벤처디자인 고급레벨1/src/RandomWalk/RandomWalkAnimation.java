@@ -21,7 +21,7 @@ public class RandomWalkAnimation extends JFrame {
         JFrame jFrame = new JFrame("RandomWalk GUI");
         jFrame.pack();
         jFrame.setLayout(new GridLayout(M, M));
-        if(M>6 & M<13) {
+        if(M>6 & M<13) {						/*판의 크기에 따라 달라지는 grid 한칸의 크기*/
             jFrame.setSize(M*60, M*60);
         }
         else if (M>25) {
