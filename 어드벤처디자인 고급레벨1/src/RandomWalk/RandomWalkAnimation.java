@@ -9,7 +9,7 @@ import java.util.Arrays;
 import java.util.Timer;
 import java.util.TimerTask;
 public class RandomWalkAnimation extends JFrame {    
-        static int M  = 10;
+        static int M  = 10;					/*55까지로 제한 예정*/
         static JLabel [][] jLabel = new JLabel[M][M];
         static String bug = "◐";
         Font font = new Font("굴림", Font.PLAIN, 40);
@@ -20,14 +20,14 @@ public class RandomWalkAnimation extends JFrame {
     public RandomWalkAnimation() throws InterruptedException{
         JFrame jFrame = new JFrame("RandomWalk GUI");
         jFrame.pack();
-        jFrame.setLayout(new GridLayout(M, M)); // 체스판 그
-        if(M>1 && M<13) {
+        jFrame.setLayout(new GridLayout(M, M));
+        if(M>6 & M<13) {
             jFrame.setSize(M*60, M*60);
         }
-        else if (M<7) {
-            jFrame.setSize(M*80, M*80);
+        else if (M>25) {
+            jFrame.setSize(M*15, M*15);
         }
-        else if (M>12) {
+        else if (M<26 & M>12) {
             jFrame.setSize(M*30, M*30);
         }
         jFrame.setDefaultCloseOperation(jFrame.EXIT_ON_CLOSE);
@@ -56,11 +56,11 @@ public class RandomWalkAnimation extends JFrame {
        
         
         jFrame.setVisible(true);
-     // 무당벌레 생성후 알고리즘 통해서 그리드에 나타나는 과정
+        // 무당벌레 생성후 알고리즘 통해서 그리드에 나타나는 과정
         LadyBug bug1 = new LadyBug();
         LadyBug tempBug1 = new LadyBug(); // 이전 행적 나타내기 위한 버그 임시로 만들어
         
-        RandomWalkDemo.initField(); // 보드판 초기
+        RandomWalkDemo.initField(); // 배경판 초기
         Thread.sleep(1000);
         while(!Arrays.deepEquals(RandomWalkDemo.field, RandomWalkDemo.fulledField)) {
         	tempBug1.CurrentXPos = bug1.CurrentXPos;
@@ -69,8 +69,8 @@ public class RandomWalkAnimation extends JFrame {
         	jLabel[bug1.CurrentXPos][bug1.CurrentYPos].setText(bug);
         	jLabel[bug1.CurrentXPos][bug1.CurrentYPos].setBackground(new Color(0,255,0));        	
         	
-        	Thread.sleep(10);
-			Movement.move(bug1);
+        	Thread.sleep(5);
+			Movement.move(bug1, M);
 			
 			jLabel[tempBug1.CurrentXPos][tempBug1.CurrentYPos].setText(" ");
 			Animationcount ++;

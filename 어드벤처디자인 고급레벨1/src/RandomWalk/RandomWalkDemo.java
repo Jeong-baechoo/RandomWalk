@@ -3,8 +3,9 @@ package RandomWalk;
 import java.util.Arrays;
 
 public class RandomWalkDemo{
-	static int[][] field = new int[10][10];
-	static int[][] fulledField = new int[10][10]; // 완성 
+	static int size = RandomWalkAnimation.M;
+	static int[][] field = new int[size][size];
+	static int[][] fulledField = new int[size][size]; // 완성 
 	
 	public static void main(String[] args) {
 		int loop = 0;
@@ -21,7 +22,7 @@ public class RandomWalkDemo{
 		
 			LadyBug bug1 = new LadyBug();
 			while(!Arrays.deepEquals(field, fulledField)) { 
-				Movement.move(bug1);
+				Movement.move(bug1,size);
 				count ++;
 			}
 		

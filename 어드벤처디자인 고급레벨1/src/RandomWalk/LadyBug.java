@@ -1,12 +1,14 @@
 package RandomWalk;
 
+import java.util.Random;
+
 public class LadyBug {
-	int CurrentXPos = 5;
-	int CurrentYPos = 5;
+	int boardsize = RandomWalkAnimation.M;
+	Random randompos = new Random();
+	int CurrentXPos = randompos.nextInt(boardsize);
+	int CurrentYPos = randompos.nextInt(boardsize);
 	
 	boolean eventvisite = false;
-	int eventXpos = 0;
-	int eventYpos = 0;
 	
 	boolean friendmeet = false;
 }
