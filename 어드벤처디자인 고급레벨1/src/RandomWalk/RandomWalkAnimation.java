@@ -69,7 +69,12 @@ public class RandomWalkAnimation extends JFrame {
         	jLabel[bug1.CurrentXPos][bug1.CurrentYPos].setText(bug);
         	jLabel[bug1.CurrentXPos][bug1.CurrentYPos].setBackground(new Color(0,255,0));        	
         	
-        	Thread.sleep(5);
+        	if (M>14) {
+        		Thread.sleep(5);        		
+        	}
+        	else if (M<15) {
+        		Thread.sleep(10);
+        	}
 			Movement.move(bug1, M);
 			
 			jLabel[tempBug1.CurrentXPos][tempBug1.CurrentYPos].setText(" ");
