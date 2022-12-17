@@ -38,6 +38,8 @@ public class RandomWalkDemo{
 		}
 		allcount += RandomWalkAnimation.Animationcount;
 		System.out.println("평균 소요시간: " + (allcount/loop));
+		MainGUI.event = 1;
+		MainGUI.print = ("평균 소요시간: " + (allcount/loop));
 	}
 	
 	static void initField()

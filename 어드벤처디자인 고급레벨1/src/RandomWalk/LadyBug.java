@@ -14,7 +14,7 @@ public class LadyBug {
 	
 	int r = randompos.nextInt(256);
 	int g = randompos.nextInt(256);
-	int b = randompos.nextInt(256);  
+	int b = randompos.nextInt(256);
 	
 	boolean eventvisit = false;
 	boolean friendmeet = false;

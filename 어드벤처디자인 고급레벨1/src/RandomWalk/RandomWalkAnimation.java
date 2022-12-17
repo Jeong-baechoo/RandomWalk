@@ -1,7 +1,6 @@
 package RandomWalk;
 import javax.swing.*;
 import javax.swing.border.LineBorder;
-
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -9,13 +8,15 @@ import java.util.Arrays;
 import java.util.Timer;
 import java.util.TimerTask;
 public class RandomWalkAnimation extends JFrame {    
-        static int M  = 10;					/*55까지로 제한 예정*/
+        static int M = 56;					/*55까지로 제한 예정*/
+        static int bugsizeWalk;
         static JLabel [][] jLabel = new JLabel[M][M];
         static String bugImage = "◐";
         Font font = new Font("굴림", Font.PLAIN, 40);
         Font fontS = new Font("굴림", Font.PLAIN, 20);
         private LineBorder box = new LineBorder(Color.black, 1, true);
         static int Animationcount = 0;
+        static int timeWalk = 200;
         
     public RandomWalkAnimation() throws InterruptedException{
         JFrame jFrame = new JFrame("RandomWalk GUI");
@@ -42,7 +43,7 @@ public class RandomWalkAnimation extends JFrame {
                 else if (M<13) {
                     jLabel[i][j].setFont(font);
                 }
-                jLabel[i][j].setForeground(Color.RED);
+                jLabel[i][j].setForeground(Color.BLACK);
                 jLabel[i][j].setHorizontalAlignment(SwingConstants.CENTER);
                 jLabel[i][j].setSize(50, 50);
                 jLabel[i][j].setOpaque(true);
@@ -53,44 +54,63 @@ public class RandomWalkAnimation extends JFrame {
             }
         } 
         
-       
-        
         jFrame.setVisible(true);
-        // 무당벌레 생성후 알고리즘 통해서 그리드에 나타나는 과정
-        LadyBug bugs[] = new LadyBug[3]; // 버그 객체 n개 생
-        LadyBug tempBugs[] = new LadyBug[3];
-        for (int i = 0; i < tempBugs.length; i++) {
-			bugs[i] = new LadyBug();
-			tempBugs[i] = new LadyBug();
-		} // 이전 행적 나타내기 위한 버그 임시로 만들어
+        MyThread myThread = new MyThread();
+        myThread.start();
         
-        RandomWalkDemo.initField(); // 배경판 초기
-        Thread.sleep(1000);
-        while(!Arrays.deepEquals(RandomWalkDemo.field, RandomWalkDemo.fulledField)) {
-        	for (int i = 0; i < bugs.length; i++) {
-				tempBugs[i].CurrentXPos = bugs[i].CurrentXPos;
-				tempBugs[i].CurrentYPos = bugs[i].CurrentYPos;
-				jLabel[bugs[i].CurrentXPos][bugs[i].CurrentYPos].setText(bugImage);
-	        	jLabel[bugs[i].CurrentXPos][bugs[i].CurrentYPos].setBackground(new Color(bugs[i].r,bugs[i].g,bugs[i].b));
-			}        	
-        	if (M>14) {
-        		Thread.sleep(300);        		
-        	}
-        	else if (M<15) {
-        		Thread.sleep(300);
-        	}
-        	for (int i = 0; i < bugs.length; i++) {
-				Movement.move(bugs[i], M);
-				jLabel[tempBugs[i].CurrentXPos][tempBugs[i].CurrentYPos].setText(" ");
-			}
-			Animationcount ++;
-		}
-        System.out.println("소요시간: " + Animationcount);
-        RandomWalkDemo.main(null);
+    }
+    
+    static void animation () throws InterruptedException {
+    	// 무당벌레 생성후 알고리즘 통해서 그리드에 나타나는 과정
+    	LadyBug bugs[] = new LadyBug[bugsizeWalk]; // 버그 객체 n개 생
+    	LadyBug tempBugs[] = new LadyBug[bugsizeWalk];
+    	for (int i = 0; i < tempBugs.length; i++) {
+    		bugs[i] = new LadyBug();
+    		tempBugs[i] = new LadyBug();
+    	} // 이전 행적 나타내기 위한 버그 임시로 만들어
+    	
+    	RandomWalkDemo.initField(); // 배경판 초기
+    	Thread.sleep(1000);
+    	while(!Arrays.deepEquals(RandomWalkDemo.field, RandomWalkDemo.fulledField)) {
+    		for (int i = 0; i < bugs.length; i++) {
+    			tempBugs[i].CurrentXPos = bugs[i].CurrentXPos;
+    			tempBugs[i].CurrentYPos = bugs[i].CurrentYPos;
+    			jLabel[bugs[i].CurrentXPos][bugs[i].CurrentYPos].setText(bugImage);
+    			jLabel[bugs[i].CurrentXPos][bugs[i].CurrentYPos].setBackground(new Color(bugs[i].r,bugs[i].g,bugs[i].b));
+    		}        	
+    		if (M>14) {
+    			Thread.sleep(timeWalk);
+    		}
+    		else if (M<15) {
+    			Thread.sleep(timeWalk);
+    		}
+    		for (int i = 0; i < bugs.length; i++) {
+    			Movement.move(bugs[i], M);
+    			jLabel[tempBugs[i].CurrentXPos][tempBugs[i].CurrentYPos].setText(" ");
+    		}
+    		Animationcount ++;
+    	}
+    	System.out.println("소요시간: " + Animationcount);
+    	MainGUI.event = 1;
+    	MainGUI.print = ("소요시간: " + Animationcount + "\n");
+    	RandomWalkDemo.main(null);    	
     }
 
     
     static public void main(String[] arg) throws InterruptedException {
         new RandomWalkAnimation();
+    }
+}
+
+class MyThread extends Thread{
+    @Override
+    public void run() {
+        try {
+            RandomWalkAnimation.animation();
+        } catch (InterruptedException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        super.run();
     }
 }

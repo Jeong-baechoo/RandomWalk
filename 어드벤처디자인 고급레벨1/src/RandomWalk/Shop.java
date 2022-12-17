@@ -8,5 +8,4 @@ public class Shop {
 	int ShopXPos = randompos.nextInt(boardsize);
 	int ShopYPos = randompos.nextInt(boardsize);
 	
-	boolean bugvisite = false;
 }
