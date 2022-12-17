@@ -6,7 +6,7 @@ import java.util.Random;
 import javax.swing.JLabel;
 
 public class LadyBug {
-	int boardsize = RandomWalkAnimation.M;
+	int boardsize = MainGUI.finalsize;
 	Random randompos = new Random();
 	
 	int CurrentXPos = randompos.nextInt(boardsize);
@@ -26,7 +26,7 @@ public class LadyBug {
 					continue;
 				}
 				bug[i].eventvisit = true;
-				System.out.printf("벌레%d가 술집을 발견했습니다!\n",i);
+				System.out.printf("벌레%d가 술집을 발견했습니다!\n",i+1);
 			}
 		}
 	}
@@ -42,7 +42,7 @@ public class LadyBug {
 						continue;
 					}
 					bug[j].eventvisit = bug[i].eventvisit; // 다른 벌레에게 장소 알려주
-					System.out.printf("벌레%d가 벌레%d에게 술집을 알려줬습니다!\n",i,j);
+					System.out.printf("벌레%d가 벌레%d에게 술집을 알려줬습니다!\n",i+1,j+1);
 				}
 			}
 		}

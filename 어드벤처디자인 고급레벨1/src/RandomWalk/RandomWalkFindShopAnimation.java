@@ -15,7 +15,7 @@ public class RandomWalkFindShopAnimation extends JFrame {
         static int bugsizeShop;
         static JLabel [][] jLabel = new JLabel[M][M];
         static String bugImage = "◐";
-        static String shopImage = "⌂";
+        static String shopImage = "★";
         Font font = new Font("굴림", Font.PLAIN, 40);
         Font fontS = new Font("굴림", Font.PLAIN, 20);
         private LineBorder box = new LineBorder(Color.black, 1, true);
@@ -31,6 +31,7 @@ public class RandomWalkFindShopAnimation extends JFrame {
         }
         else if (M>25) {
             jFrame.setSize(M*15, M*15);
+            jFrame.setBounds(100, 100, 1200, 800);
         }
         else if (M<26 & M>12) {
             jFrame.setSize(M*30, M*30);
@@ -88,6 +89,7 @@ public class RandomWalkFindShopAnimation extends JFrame {
     		}        	
     		
     		jLabel[shop.ShopXPos][shop.ShopYPos].setText(shopImage);
+    		jLabel[shop.ShopXPos][shop.ShopYPos].setForeground(Color.RED);
     		if (M>14) {
     			Thread.sleep(timeShop);        		
     		}
@@ -100,10 +102,10 @@ public class RandomWalkFindShopAnimation extends JFrame {
     		}
     		Animationcount ++;
     		
-    		
     	}
-    	
-    	System.out.println("소요시간: " + Animationcount);
+    	String result = ("소요시간: " + Animationcount);
+    	System.out.println(result);
+    	MainGUI.output = result;
     	RandomWalkDemo.main(null);
     }
 

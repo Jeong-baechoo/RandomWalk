@@ -22,12 +22,13 @@ import java.awt.event.ActionEvent;
 
 public class MainGUI {
 
-	private JFrame frame;
+	private static JFrame frame;
 	private JTextField boardsize;
 	private JTextField bugcount;
-	int choose = 0;
-	static int event = 0;
-	static String print;
+	static int choose = 0;
+	static int finalsize = 0;
+	static int finalbug = 0;
+	static String output = "";
 
 	/**
 	 * Launch the application.
@@ -57,7 +58,7 @@ public class MainGUI {
 	 */
 	private void initialize() {
 		frame = new JFrame();
-		frame.setBounds(100, 100, 571, 493);
+		frame.setBounds(100, 100, 570, 521);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 		
@@ -83,7 +84,6 @@ public class MainGUI {
 		frame.getContentPane().add(bugcount);
 		bugcount.setColumns(10);
 		
-		
 		JButton noshop = new JButton("방 탐색하기");
 		noshop.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -102,11 +102,10 @@ public class MainGUI {
                     errormessage.showMessageDialog(null, "방크기에 잘못된 값을 입력하였습니다.");
                     return;
                }
-                if(size<4||size>56) {
+                if(size<7||size>45) {
                 errormessage.showMessageDialog(null, "방크기에 잘못된 값을 입력하였습니다.");
                 return;
                 }
-                RandomWalkAnimation.M = size;
                 
                 try {
                     bugs = Integer.parseInt(bugcount.getText());                    
@@ -115,11 +114,14 @@ public class MainGUI {
                     errormessage.showMessageDialog(null, "벌레수에 잘못된 값을 입력하였습니다.");
                     return;
                }
-                if(bugs<1||bugs>3) {
+                if(bugs<1||bugs>5) {
                 errormessage.showMessageDialog(null, "벌레수에 잘못된 값을 입력하였습니다.");
                 return;
                 }
+                RandomWalkAnimation.M = size;
+                finalsize = size;
                 RandomWalkAnimation.bugsizeWalk = bugs;
+                finalbug = bugs;
                 
                 choose = 1;
                
@@ -149,7 +151,7 @@ public class MainGUI {
                     errormessage.showMessageDialog(null, "방크기에 잘못된 값을 입력하였습니다.");
                     return;
                }
-                if(size<4||size>56) {
+                if(size<7||size>45) {
                 errormessage.showMessageDialog(null, "방크기에 잘못된 값을 입력하였습니다.");
                 return;
                 }
@@ -161,12 +163,14 @@ public class MainGUI {
                     errormessage.showMessageDialog(null, "벌레수에 잘못된 값을 입력하였습니다.");
                     return;
                }
-                if(bugs<1||bugs>3) {
+                if(bugs<1||bugs>5) {
                 errormessage.showMessageDialog(null, "벌레수에 잘못된 값을 입력하였습니다.");
                 return;
                 }
                 RandomWalkFindShopAnimation.M = size;
+                finalsize = size;
                 RandomWalkFindShopAnimation.bugsizeShop = bugs;
+                finalbug = bugs;
                 choose = 2;
                
                 try {
@@ -193,12 +197,12 @@ public class MainGUI {
 				}
 			}
 		});
-		timeslider.setValue(250);
+		timeslider.setValue(200);
 		timeslider.setPaintLabels(true);
 		timeslider.setPaintTicks(true);
-		timeslider.setMajorTickSpacing(100);
-		timeslider.setMinorTickSpacing(50);
-		timeslider.setMaximum(500);
+		timeslider.setMajorTickSpacing(50);
+		timeslider.setMinorTickSpacing(10);
+		timeslider.setMaximum(300);
 		timeslider.setBounds(12, 207, 527, 71);
 		frame.getContentPane().add(timeslider);
 		
@@ -216,9 +220,29 @@ public class MainGUI {
 		
 		JTextArea textArea = new JTextArea();
 		textArea.setFont(new Font("Monospaced", Font.PLAIN, 15));
-		textArea.setBounds(22, 288, 517, 126);
+		textArea.setBounds(12, 288, 532, 173);
 		frame.getContentPane().add(textArea);
 		
-		
+		GuiThread thd = new GuiThread(textArea);
+        thd.start();
+        while (thd.isAlive()) {
+        	if (output != "") {
+        		thd.run(output);
+        		output = "";
+        	}        	
+        }
 	}
+}
+
+
+
+class GuiThread extends Thread{
+    JTextArea jArea;
+    public GuiThread(JTextArea textArea) {
+        jArea = textArea;
+    }
+    public void run(String msg) {
+        jArea.append(msg);
+        super.run();
+    }
 }

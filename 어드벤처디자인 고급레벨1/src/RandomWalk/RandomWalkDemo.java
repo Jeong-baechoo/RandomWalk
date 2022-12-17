@@ -3,7 +3,9 @@ package RandomWalk;
 import java.util.Arrays;
 
 public class RandomWalkDemo{
-	static int size = RandomWalkAnimation.M;
+	static int size = MainGUI.finalsize;
+	static int bugsize = MainGUI.finalbug;
+	static int choosegame = MainGUI.choose;
 	static int[][] field = new int[size][size];
 	static int[][] fulledField = new int[size][size]; // 완성 
 	
@@ -11,7 +13,7 @@ public class RandomWalkDemo{
 		int loop = 0;
 		int allcount = 0;
 		
-		while(loop<5) {
+		while(loop<10) {
 			for (int i = 0; i < field.length; i++) {
 				for (int j = 0; j < field.length; j++) {
 					field[i][j] = 0;
@@ -20,26 +22,37 @@ public class RandomWalkDemo{
 			}
 			int count = 0;
 		
-			LadyBug bug1 = new LadyBug();
-			while(!Arrays.deepEquals(field, fulledField)) { 
-				Movement.move(bug1,size);
-				count ++;
+			LadyBug bugs[] = new LadyBug[bugsize]; // 버그 객체 n개 생
+	    	LadyBug tempBugs[] = new LadyBug[bugsize];
+	    	for (int i = 0; i < tempBugs.length; i++) {
+	    		bugs[i] = new LadyBug();
+	    		tempBugs[i] = new LadyBug();
+	    	}
+	    	if (choosegame == 1){
+	    		while(!Arrays.deepEquals(field, fulledField)) { 
+	    			for (int i = 0; i < bugs.length; i++) {
+	    				Movement.move(bugs[i], size);
+	    			}
+	    			count ++;
+	    		}
 			}
-		
-//			for (int i = 0; i < field.length; i++) {
-//				for (int j = 0; j < field.length; j++) {
-//					System.out.print(field[i][j]);
-//				}
-//				System.out.println();
-//			}
-//			System.out.println("소요시간: " + count + "\n");
+	    	else if (choosegame == 2) {
+	    		Shop shop = new Shop();
+	    		while(!LadyBug.allKnown(bugs)) { //LadyBug.find(bugs, Shop1)
+	    			LadyBug.find(bugs, shop);
+	    			LadyBug.meet(bugs);
+	    			for (int i = 0; i < bugs.length; i++) {
+	        			Movement.move(bugs[i], size);
+	    			}
+	    			count ++;
+	    		}
+	    	}
+
 			allcount += count;
 			++ loop;
 		}
 		allcount += RandomWalkAnimation.Animationcount;
 		System.out.println("평균 소요시간: " + (allcount/loop));
-		MainGUI.event = 1;
-		MainGUI.print = ("평균 소요시간: " + (allcount/loop));
 	}
 	
 	static void initField()

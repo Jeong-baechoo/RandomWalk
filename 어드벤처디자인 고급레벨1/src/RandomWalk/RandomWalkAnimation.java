@@ -27,6 +27,7 @@ public class RandomWalkAnimation extends JFrame {
         }
         else if (M>25) {
             jFrame.setSize(M*15, M*15);
+            jFrame.setBounds(100, 100, 1200, 800);
         }
         else if (M<26 & M>12) {
             jFrame.setSize(M*30, M*30);
@@ -90,10 +91,10 @@ public class RandomWalkAnimation extends JFrame {
     		}
     		Animationcount ++;
     	}
-    	System.out.println("소요시간: " + Animationcount);
-    	MainGUI.event = 1;
-    	MainGUI.print = ("소요시간: " + Animationcount + "\n");
-    	RandomWalkDemo.main(null);    	
+    	String result = ("소요시간: " + Animationcount);
+    	System.out.println(result);
+    	MainGUI.output = result;
+    	RandomWalkDemo.main(null); 	
     }
 
     
