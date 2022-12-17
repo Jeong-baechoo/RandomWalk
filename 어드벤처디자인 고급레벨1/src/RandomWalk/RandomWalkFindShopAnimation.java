@@ -6,19 +6,22 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Arrays;
+import java.util.Random;
+import java.util.Scanner;
 import java.util.Timer;
 import java.util.TimerTask;
-public class RandomWalkAnimation extends JFrame {    
+public class RandomWalkFindShopAnimation extends JFrame {    
         static int M  = 10;					/*55까지로 제한 예정*/
         static JLabel [][] jLabel = new JLabel[M][M];
         static String bugImage = "◐";
+        static String shopImage = "⌂";
         Font font = new Font("굴림", Font.PLAIN, 40);
         Font fontS = new Font("굴림", Font.PLAIN, 20);
         private LineBorder box = new LineBorder(Color.black, 1, true);
         static int Animationcount = 0;
         
-    public RandomWalkAnimation() throws InterruptedException{
-        JFrame jFrame = new JFrame("RandomWalk GUI");
+    public RandomWalkFindShopAnimation() throws InterruptedException{
+        JFrame jFrame = new JFrame("RandomWalk Shop GUI");
         jFrame.pack();
         jFrame.setLayout(new GridLayout(M, M));
         if(M>6 & M<13) {						/*판의 크기에 따라 달라지는 grid 한칸의 크기*/
@@ -62,35 +65,45 @@ public class RandomWalkAnimation extends JFrame {
         for (int i = 0; i < tempBugs.length; i++) {
 			bugs[i] = new LadyBug();
 			tempBugs[i] = new LadyBug();
-		} // 이전 행적 나타내기 위한 버그 임시로 만들어
+		}
+   
         
+        Shop shop = new Shop();
         RandomWalkDemo.initField(); // 배경판 초기
         Thread.sleep(1000);
-        while(!Arrays.deepEquals(RandomWalkDemo.field, RandomWalkDemo.fulledField)) {
+        while(!LadyBug.allKnown(bugs)) { //LadyBug.find(bugs, Shop1)
+        	LadyBug.find(bugs, shop);
+        	LadyBug.meet(bugs);
+        	
         	for (int i = 0; i < bugs.length; i++) {
 				tempBugs[i].CurrentXPos = bugs[i].CurrentXPos;
 				tempBugs[i].CurrentYPos = bugs[i].CurrentYPos;
 				jLabel[bugs[i].CurrentXPos][bugs[i].CurrentYPos].setText(bugImage);
 	        	jLabel[bugs[i].CurrentXPos][bugs[i].CurrentYPos].setBackground(new Color(bugs[i].r,bugs[i].g,bugs[i].b));
 			}        	
+        	
+        	jLabel[shop.ShopXPos][shop.ShopYPos].setText(shopImage);
         	if (M>14) {
-        		Thread.sleep(300);        		
+        		Thread.sleep(100);        		
         	}
         	else if (M<15) {
-        		Thread.sleep(300);
+        		Thread.sleep(100);
         	}
         	for (int i = 0; i < bugs.length; i++) {
 				Movement.move(bugs[i], M);
 				jLabel[tempBugs[i].CurrentXPos][tempBugs[i].CurrentYPos].setText(" ");
 			}
 			Animationcount ++;
+			
+			
 		}
+       
         System.out.println("소요시간: " + Animationcount);
         RandomWalkDemo.main(null);
     }
 
     
     static public void main(String[] arg) throws InterruptedException {
-        new RandomWalkAnimation();
+        new RandomWalkFindShopAnimation();
     }
 }
