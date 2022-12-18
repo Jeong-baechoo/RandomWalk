@@ -19,19 +19,20 @@ public class LadyBug {
 	boolean eventvisit = false;
 	boolean friendmeet = false;
 	
-	static void find(LadyBug bug[], Shop shop) {
+	static void find(LadyBug bug[], Shop shop, boolean flag) {
 		for (int i = 0; i < bug.length; i++) {
 			if(shop.ShopXPos == bug[i].CurrentXPos && shop.ShopYPos == bug[i].CurrentYPos) {
 				if(bug[i].eventvisit == true) {
 					continue;
 				}
 				bug[i].eventvisit = true;
-				System.out.printf("벌레%d가 술집을 발견했습니다!\n",i+1);
+				if(flag) return;
+				System.out.printf("BUG%d found the location of the bar!\n",i+1);
 			}
 		}
 	}
 	
-	static void meet(LadyBug bug[]) {
+	static void meet(LadyBug bug[],boolean flag) {
 		for (int i = 0; i < bug.length; i++) {
 			for (int j = 0; j < bug.length; j++) {
 				if(i == j) {
@@ -42,7 +43,8 @@ public class LadyBug {
 						continue;
 					}
 					bug[j].eventvisit = bug[i].eventvisit; // 다른 벌레에게 장소 알려주
-					System.out.printf("벌레%d가 벌레%d에게 술집을 알려줬습니다!\n",i+1,j+1);
+					if(flag) return;
+					System.out.printf("BUG%d told BUG%d the location of the bar!\n",i+1,j+1);
 				}
 			}
 		}

@@ -9,9 +9,11 @@ public class RandomWalkDemo{
 	static int[][] field = new int[size][size];
 	static int[][] fulledField = new int[size][size]; // 완성 
 	
+	
 	public static void main(String[] args) {
 		int loop = 0;
 		int allcount = 0;
+		boolean flag = false;
 		
 		while(loop<10) {
 			for (int i = 0; i < field.length; i++) {
@@ -39,8 +41,8 @@ public class RandomWalkDemo{
 	    	else if (choosegame == 2) {
 	    		Shop shop = new Shop();
 	    		while(!LadyBug.allKnown(bugs)) { //LadyBug.find(bugs, Shop1)
-	    			LadyBug.find(bugs, shop);
-	    			LadyBug.meet(bugs);
+	    			LadyBug.find(bugs, shop,true);
+	    			LadyBug.meet(bugs, true);
 	    			for (int i = 0; i < bugs.length; i++) {
 	        			Movement.move(bugs[i], size);
 	    			}
@@ -52,7 +54,7 @@ public class RandomWalkDemo{
 			++ loop;
 		}
 		allcount += RandomWalkAnimation.Animationcount;
-		System.out.println("평균 소요시간: " + (allcount/loop));
+		System.out.println("AVERAGE TIME: " + (allcount/loop));
 	}
 	
 	static void initField()

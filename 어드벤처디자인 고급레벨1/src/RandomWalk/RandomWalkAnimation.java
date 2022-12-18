@@ -17,6 +17,7 @@ public class RandomWalkAnimation extends JFrame {
         private LineBorder box = new LineBorder(Color.black, 1, true);
         static int Animationcount = 0;
         static int timeWalk = 200;
+        static String result;
         
     public RandomWalkAnimation() throws InterruptedException{
         JFrame jFrame = new JFrame("RandomWalk GUI");
@@ -91,7 +92,7 @@ public class RandomWalkAnimation extends JFrame {
     		}
     		Animationcount ++;
     	}
-    	String result = ("소요시간: " + Animationcount);
+    	result = ("TIME: " + Animationcount);
     	System.out.println(result);
     	MainGUI.output = result;
     	RandomWalkDemo.main(null); 	

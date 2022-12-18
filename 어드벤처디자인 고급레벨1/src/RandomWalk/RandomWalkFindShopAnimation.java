@@ -78,8 +78,8 @@ public class RandomWalkFindShopAnimation extends JFrame {
     	RandomWalkDemo.initField(); // 배경판 초기
     	Thread.sleep(1000);
     	while(!LadyBug.allKnown(bugs)) { //LadyBug.find(bugs, Shop1)
-    		LadyBug.find(bugs, shop);
-    		LadyBug.meet(bugs);
+    		LadyBug.find(bugs, shop,false);
+    		LadyBug.meet(bugs,false);
     		
     		for (int i = 0; i < bugs.length; i++) {
     			tempBugs[i].CurrentXPos = bugs[i].CurrentXPos;
@@ -103,7 +103,7 @@ public class RandomWalkFindShopAnimation extends JFrame {
     		Animationcount ++;
     		
     	}
-    	String result = ("소요시간: " + Animationcount);
+    	String result = ("TIME: " + Animationcount);
     	System.out.println(result);
     	MainGUI.output = result;
     	RandomWalkDemo.main(null);

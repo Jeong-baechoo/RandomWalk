@@ -7,6 +7,8 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
 import java.awt.Font;
+import java.awt.TextArea;
+
 import javax.swing.SwingConstants;
 import javax.swing.JTextField;
 import javax.swing.JButton;
@@ -15,6 +17,10 @@ import javax.swing.JTextPane;
 import javax.swing.JTextArea;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.io.PrintStream;
+
 import javax.swing.event.ChangeListener;
 import javax.swing.event.ChangeEvent;
 import java.awt.event.ActionListener;
@@ -206,43 +212,46 @@ public class MainGUI {
 		timeslider.setBounds(12, 207, 527, 71);
 		frame.getContentPane().add(timeslider);
 		
-		JLabel lblNewLabel_2 = new JLabel("동작은 방의 크기가 4이상 55까지 동작합니다.");
+		JLabel lblNewLabel_2 = new JLabel("동작은 방의 크기가 7이상 45까지 동작합니다.");
 		lblNewLabel_2.setHorizontalAlignment(SwingConstants.CENTER);
 		lblNewLabel_2.setFont(new Font("굴림", Font.PLAIN, 15));
 		lblNewLabel_2.setBounds(12, 68, 527, 29);
 		frame.getContentPane().add(lblNewLabel_2);
 		
-		JLabel lblNewLabel_3 = new JLabel(" 벌레의 수는 3개 이하로 입력해주세요.");
+		JLabel lblNewLabel_3 = new JLabel(" 벌레의 수는 5개 이하로 입력해주세요.");
 		lblNewLabel_3.setHorizontalAlignment(SwingConstants.CENTER);
 		lblNewLabel_3.setFont(new Font("굴림", Font.PLAIN, 15));
 		lblNewLabel_3.setBounds(86, 96, 358, 29);
 		frame.getContentPane().add(lblNewLabel_3);
 		
+		
+		
 		JTextArea textArea = new JTextArea();
+		PrintStream standardOut;
+		
 		textArea.setFont(new Font("Monospaced", Font.PLAIN, 15));
 		textArea.setBounds(12, 288, 532, 173);
+		PrintStream printStream = new PrintStream(new CustomOutputStream(textArea));
+		standardOut = System.out;
+		System.setOut(printStream);
+		System.setErr(printStream);
 		frame.getContentPane().add(textArea);
-		
-		GuiThread thd = new GuiThread(textArea);
-        thd.start();
-        while (thd.isAlive()) {
-        	if (output != "") {
-        		thd.run(output);
-        		output = "";
-        	}        	
-        }
 	}
 }
 
-
-
-class GuiThread extends Thread{
-    JTextArea jArea;
-    public GuiThread(JTextArea textArea) {
-        jArea = textArea;
+class CustomOutputStream extends OutputStream {
+    private JTextArea textArea;
+     
+    public CustomOutputStream(JTextArea textArea) {
+        this.textArea = textArea;
     }
-    public void run(String msg) {
-        jArea.append(msg);
-        super.run();
-    }
+     
+    @Override
+    public void write(int b) throws IOException {
+        // redirects data to the text area
+    	String proposer = String.valueOf((char)b);
+        textArea.append(String.valueOf((char)b));
+        // scrolls the text area to the end of data
+        textArea.setCaretPosition(textArea.getDocument().getLength());
+        }
 }
