@@ -13,3 +13,5 @@ __개발 언어__: JAVA GitHub
 
 ## 구현내용
 GUI 실행에 관한 YouTube link : https://www.youtube.com/watch?v=TFUhdr73IEQ
+![이미지](https://user-images.githubusercontent.com/54587781/208406955-bc51b7d5-2a8a-41fa-b668-8c8e1d53f601.png)
+![이미지](https://user-images.githubusercontent.com/54587781/208407032-8de94efd-83fc-4440-8b0f-2cde4d1753d5.png)
